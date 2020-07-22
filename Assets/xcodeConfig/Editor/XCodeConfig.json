@@ -1,0 +1,118 @@
+{
+  "libs": {
+    "+": [
+      "libxml2.tbd",
+      "libxml2.tbd",
+      "libresolv.9.tbd",
+      "libsqlite3.tbd",
+      "libz.tbd"
+    ],
+    "-": []
+  },
+  "frameworks": {
+    "+": [
+      "AdSupport.framework",
+      "AVFoundation.framework",
+      "CoreGraphics.framework",
+      "CoreLocation.framework",
+      "CoreMedia.framework",
+      "CoreTelephony.framework",
+      "Foundation.framework",
+      "MediaPlayer.framework",
+      "MessageUI.framework",
+      "QuartzCore.framework",
+      "SafariServices.framework",
+      "StoreKit.framework",
+      "SystemConfiguration.framework",
+      "UIKit.framework",
+      "WebKit.framework"
+    ],
+    "-": []
+  },
+  "properties": {
+    "=": {
+        "ENABLE_BITCODE": "NO",
+        "GCC_ENABLE_OBJC_EXCEPTIONS": "YES",
+        "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
+        "CODE_SIGN_IDENTITY": "Apple Development",
+        "CODE_SIGN_IDENTITY[sdk=iphoneos*]": "Apple Development",
+        "CODE_SIGN_STYLE": "Manual",
+        "CLANG_ENABLE_MODULES": "YES",
+        "PROVISIONING_PROFILE_SPECIFIER": "tank2_0710_dev"
+    },
+    "+": {
+      "OTHER_LDFLAGS": [
+        "-ObjC"
+      ],
+      "LIBRARY_SEARCH_PATHS": [
+        "$(SRCROOT)/Libraries"
+      ]
+    },
+    "-": {
+      "LIBRARY_SEARCH_PATHS": [
+        "\"$(SRCROOT)/Libraries\""
+      ]
+    }
+  },
+  "plist": {
+    "AppLovinSdkKey": "9hZx6KZPde6GIbp6OX3zn0M3HzROhgMsNxoTGLtv_-AHZzNzURwFRGJkEl6xQTnoPZFfv7Tv5iAegTb9-WPQni",
+    "GADIsAdManagerApp": true,
+    "GADApplicationIdentifier": "ca-app-pub-5470400114155059~9270255018",
+    "NSAppTransportSecurity": {
+      "NSAllowsArbitraryLoads": true
+    },
+    "CFBundleURLTypes": [
+      {
+        "CFBundleURLSchemes": [
+          "fb518208895558083"
+        ]
+      }
+    ],
+    "FacebookAppID": "518208895558083",
+    "FacebookDisplayName": "Tankr.io 2 - Tank Clash",
+    "LSApplicationQueriesSchemes": [
+      "fbapi",
+      "fb-messenger-share-api",
+      "fbauth2",
+      "fbshareextension"
+    ]
+  },
+  "teamId": "5LB6T49XW9",
+    "copyfiles": {
+        "iOSAdd/Files/HwAdsInterface.m": "Classes/HwAdsInterface.m",
+        "iOSAdd/Files/HwAdsInterface.h": "Classes/HwAdsInterface.h",
+        "iOSAdd/Files/CustomAppController.mm": "Classes/CustomAppController.mm"
+    },
+  "folders": {
+    "iOSAdd/HwAds": "HwAds"
+  },
+  "deletefolder": [
+    "Data/Raw/Android",
+    "Data/Raw/Editor"
+  ],
+  "deleteFiles": {
+    "iOSAdd/HwAds": [
+      "MIT-LICENSE",
+      "LICENSE",
+      "README.md",
+      "LICENSE.md",
+      "CHANGELOG.md",
+      "CHANGELOG.md"
+    ]
+  },
+  "embeds": [
+    "FBAudienceNetwork.framework"
+  ],
+  "addShellScript": [
+    {
+      "shellName": "Architectures",
+      "shellPath": "/bin/sh",
+      "shellScript": "Assets/xcodeConfig/Editor/Architectures_Shell.txt"
+    }
+  ],
+  "filesCompileFlag": {
+    "Libraries/Plugins/iOS/JSONKit.m": [
+      "-fno-objc-arc"
+    ]
+  }
+}
