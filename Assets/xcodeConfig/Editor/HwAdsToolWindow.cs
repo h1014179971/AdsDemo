@@ -19,6 +19,7 @@ public class HwAdsToolWindow : EditorWindow
     private static string hwads_MonetizationToken;
     private static string ga_GameKey;
     private static string ga_gameSecret;
+    private static string ga_buildId;
     private static string dp_appID;
     private static string dp_appName;
     private static string dp_channel;
@@ -78,6 +79,7 @@ public class HwAdsToolWindow : EditorWindow
         //GA
         ga_GameKey = jo.Value<string>("ga_GameKey");
         ga_gameSecret = jo.Value<string>("ga_gameSecret");
+        ga_buildId = jo.Value<string>("ga_buildId");
         //DataPlayer
         dp_appID = jo.Value<string>("dp_appID");
         dp_appName = jo.Value<string>("dp_appName"); 
@@ -177,6 +179,10 @@ public class HwAdsToolWindow : EditorWindow
         GUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("ga_gameSecret", GUILayout.Width(150));
         ga_gameSecret = EditorGUILayout.TextField("", ga_gameSecret);
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("ga_buildId", GUILayout.Width(150));
+        ga_buildId = EditorGUILayout.TextField("", ga_buildId);
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("-----------------------------------DataPlayer---------------------------------------");
@@ -308,7 +314,12 @@ public class HwAdsToolWindow : EditorWindow
         {
             ga_gameSecret = ga_gameSecret.Replace(" ","");
             jo["ga_gameSecret"] = ga_gameSecret;
-        } 
+        }
+        if (!string.IsNullOrEmpty(ga_buildId))
+        {
+            ga_buildId = ga_buildId.Replace(" ", "");
+            jo["ga_buildId"] = ga_buildId;
+        }
         //DataPlayer
         if (!string.IsNullOrEmpty(dp_appID))
         {

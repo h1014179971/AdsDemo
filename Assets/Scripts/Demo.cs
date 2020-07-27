@@ -41,4 +41,12 @@ public class Demo : MonoBehaviour
         }
         
     }
+    public void EventPropertieOnClick()
+    {
+        Debug.Log("Demo EventPropertieOnClick");
+        string customKey = "Demo";
+        Dictionary<string, string> dic = new Dictionary<string, string>();
+        dic.Add("Test", "Test1");
+        PlatformFactory.Instance.TAEventPropertie(customKey,dic);
+    }
 }

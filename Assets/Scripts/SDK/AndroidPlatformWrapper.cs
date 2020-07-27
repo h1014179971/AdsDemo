@@ -126,5 +126,14 @@ public class AndroidPlatformWrapper : MonoBehaviour {
             jo.Call("GameQuit"); 
         
     }
+    public  void TAEventPropertie(string key, string jsonStr)
+    {
+        Debug.Log("AndroidPlatformWrapper EventPropertie:" + jsonStr);
+        object[] paramArray = new object[2];
+        paramArray[0] = key;
+        paramArray[1] = jsonStr;  
+        if (jo != null)
+            jo.Call("TAEventPropertie", paramArray);   
+    }
 }
 #endif

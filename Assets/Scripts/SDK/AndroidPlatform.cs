@@ -42,6 +42,16 @@ public class AndroidPlatform : PlatformFactory
     {
         AndroidPlatformWrapper.Instance.GameQuit();
     }
+    public override void TAEventPropertie(string key, Dictionary<string, string> dic)
+    {
+        string jsonStr = FullSerializerAPI.Serialize(typeof(Dictionary<string, string>), dic);
+        TAEventPropertie(key, jsonStr);
+    }
+    public override void TAEventPropertie(string key, string jsonStr)
+    {
+        Debug.Log("AndroidPlatform EventPropertie:" + jsonStr);
+        AndroidPlatformWrapper.Instance.TAEventPropertie(key, jsonStr);
+    }
 
 }
 #endif
