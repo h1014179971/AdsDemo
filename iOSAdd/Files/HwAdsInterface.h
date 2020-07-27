@@ -26,6 +26,7 @@
 @property NSString *hwads_MonetizationToken;
 @property NSString *ga_GameKey;
 @property NSString *ga_gameSecret;
+@property NSString *ga_buildId;
 //dataplayer
 @property NSString *dp_appID;
 @property NSString *dp_appName;

@@ -10,6 +10,6 @@
   "dp_appName": "tankr2",
   "dp_channel": "App Store",
   "dp_serviceVendor": "CN",
-  "bugly_appID": "c049ee6e16"
+  "bugly_appID": "c049ee6e16",
+  "ga_buildId": "90.0"
 }
-

@@ -12,6 +12,7 @@
 #import "HwAdsInterface.h"
 #import <ThinkingSDK/ThinkingAnalyticsSDK.h>
 #import "BDAutoTrack.h"
+#import <GameAnalytics/GameAnalytics.h>
 
 
 @implementation HwAdsInterface
@@ -78,6 +79,12 @@ static HwAdsInterface *hwAdsInterfaceInstance;
 -(void)initMHSDK{
     NSLog(@"initHwSDK");
     HwAdsInterface* hwAdsInterface = [HwAdsInterface sharedInstance];
+    //ga
+    NSLog(@"initHwSDK ga_GameKey:%@=>ga_gameSecret:%@=>ga_buildId:%@",self.ga_GameKey,self.ga_gameSecret,self.ga_buildId);
+    [GameAnalytics initializeWithGameKey:self.ga_GameKey gameSecret:self.ga_gameSecret];
+    [GameAnalytics configureBuild:self.ga_buildId];
+    //ga
+    
     //[[HwAds instance] initSDK:serverURL]; //3.1版本之前
     [[HwAds instance] initSDK:self.hwads_projectId hwAppToken:self.hwads_AppToken hwImportantToken:self.hwads_ImportantToken hwUACToken:self.hwads_ImportantToken hwMonetizationToken:self.hwads_MonetizationToken];
     HwAds* hwads = [HwAds instance];
@@ -163,6 +170,7 @@ static HwAdsInterface *hwAdsInterfaceInstance;
     self.hwads_MonetizationToken = dict[@"hwads_MonetizationToken"];
     self.ga_GameKey = dict[@"ga_GameKey"];
     self.ga_gameSecret = dict[@"ga_gameSecret"];
+    self.ga_buildId = dict[@"ga_buildId"];
     NSLog(@"hwads_projectId:%d=>hwads_AppToken:%@=>hwads_ImportantToken:%@=>hwads_UACToken:%@=>hwads_MonetizationToken:%@=>ga_GameKey:%@=>ga_gameSecret:%@",self.hwads_projectId,self.hwads_AppToken,self.hwads_ImportantToken,self.hwads_UACToken,self.hwads_MonetizationToken,self.ga_GameKey,self.ga_gameSecret);
     //dataplayer
     self.dp_appID = dict[@"dp_appID"];
@@ -194,6 +202,9 @@ static HwAdsInterface *hwAdsInterfaceInstance;
 }
 -(NSString*) getGA_gameSecret{
     return  self.ga_gameSecret;
+}
+-(NSString*) getGA_buildId{
+    return  self.ga_buildId;
 }
 -(NSString*) getDP_appID{
     return self.dp_appID;
@@ -265,6 +276,20 @@ void TAEventHwPropertie(char *custom, char *str){
             [BDAutoTrack eventV3:customKey params:dict];
         }
         
+    }
+    
+    NSArray *keysArray = [dict allKeys];
+
+    for (int i = 0; i < keysArray.count; i++) {
+        NSString *key = keysArray[i];
+        NSString *value = dict[key];
+        if(customKey != nil && key != nil && value != nil){
+           NSString *ga = [customKey stringByAppendingFormat:@":%@:%@", key, value ];
+            if(ga != nil){
+                [GameAnalytics addDesignEventWithEventId:ga];
+            }
+            NSLog(@"GameAanlytics Event====%@", ga);
+        }
     }
 }
 
