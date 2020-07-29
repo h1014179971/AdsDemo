@@ -131,7 +131,7 @@ android {
         javaMaxHeapSize "4g"
     }
     defaultConfig {
-		manifestPlaceholders.put("APPLOG_SCHEME", "rangersapplog.0514475e6b0a281c".toLowerCase())
+		manifestPlaceholders.put("APPLOG_SCHEME", "rangersapplog.cd486b5ffdff2fd0".toLowerCase())
 		multiDexEnabled true
         minSdkVersion **MINSDKVERSION**
         targetSdkVersion **TARGETSDKVERSION**
