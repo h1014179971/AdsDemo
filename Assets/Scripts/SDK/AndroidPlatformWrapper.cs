@@ -60,14 +60,14 @@ public class AndroidPlatformWrapper : MonoBehaviour {
     public void showRewardedVideo(string tag)
     {
         Debug.Log("AndroidPlatformWrapper showRewardedVideo");
-        object[] paramArray = new object[1];
+        object[] paramArray = new object[3];
         paramArray[0] = tag;
-        //paramArray[1] = "PlatformCallback_FinishRewardAd";
-        //paramArray[2] = "PlatformCallback_FailedRewardAd";
+        paramArray[1] = "PlatformCallback_FinishRewardAd";
+        paramArray[2] = "PlatformCallback_FailedRewardAd";
         if(jo != null)
             jo.Call("showHwRewardAd", paramArray); 
         
-    }
+    }                             
     /// <summary>
     /// 视频播放成功
     /// </summary>
