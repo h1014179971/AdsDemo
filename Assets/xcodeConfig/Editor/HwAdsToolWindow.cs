@@ -54,22 +54,38 @@ public class HwAdsToolWindow : EditorWindow
         scrollPos = new Vector2(instance.position.x, instance.position.y + 75);
         instance.Show();
     }
+    static void CreateDirectory()
+    {
+        string directoryPath = Path.Combine(Application.streamingAssetsPath, "Ios");
+        if (!Directory.Exists(directoryPath))
+            Directory.CreateDirectory(directoryPath);
+        directoryPath = Path.Combine(Application.streamingAssetsPath, "Android");
+        if (!Directory.Exists(directoryPath))
+            Directory.CreateDirectory(directoryPath);
+    }
     static void LoadData()
     {
-        if(isIos)
+        CreateDirectory();
+        if (isIos)
             dataPath = Path.Combine(Application.streamingAssetsPath, "Ios/SdkData.json");
         else
             dataPath = Path.Combine(Application.streamingAssetsPath, "Android/SdkData.json");
         if (!File.Exists(dataPath))
         {
-            File.Create(dataPath);
+            File.Create(dataPath).Dispose(); 
             return;
         }
         StreamReader streamReader = new StreamReader(dataPath);
         string json = streamReader.ReadToEnd();
         streamReader.Close();
-        var jToken = JToken.Parse(json);
-        JObject jo = jToken as JObject;
+        JObject jo = null;
+        if (String.IsNullOrEmpty(json))
+            jo = new JObject();
+        else
+        {
+            var jToken = JToken.Parse(json);
+            jo = jToken as JObject;
+        }  
         hwAds_projectId = jo.Value<int>("hwads_projectId").ToString(); 
         hwads_AppToken = jo.Value<string>("hwads_AppToken"); 
         hwads_ImportantToken = jo.Value<string>("hwads_ImportantToken");
@@ -84,7 +100,11 @@ public class HwAdsToolWindow : EditorWindow
         dp_appID = jo.Value<string>("dp_appID");
         dp_appName = jo.Value<string>("dp_appName"); 
         dp_channel = jo.Value<string>("dp_channel");
-        dp_serviceVendor = (Dp_serviceVendorEnum)Enum.Parse(typeof(Dp_serviceVendorEnum), jo.Value<string>("dp_serviceVendor"));
+        string dp_service = jo.Value<string>("dp_serviceVendor");
+        if (String.IsNullOrEmpty(dp_service))
+            dp_serviceVendor = Dp_serviceVendorEnum.NONE;
+        else
+            dp_serviceVendor = (Dp_serviceVendorEnum)Enum.Parse(typeof(Dp_serviceVendorEnum), dp_service);
         //bugly
         bugly_appID = jo.Value<string>("bugly_appID");
     }
@@ -143,8 +163,7 @@ public class HwAdsToolWindow : EditorWindow
             isIos = isToggle;
             LoadData();
         }
-            
-        Debug.Log("isIos ===" + isIos);
+                            
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("---------------------------------------------------------------------------------");
@@ -273,85 +292,94 @@ public class HwAdsToolWindow : EditorWindow
     }
     static void SaveData()
     {
-        StreamReader streamReader = new StreamReader(dataPath);
-        string json = streamReader.ReadToEnd();
-        streamReader.Close();
-        var jToken = JToken.Parse(json);
-        JObject jo = jToken as JObject;
-        if (!string.IsNullOrEmpty(hwAds_projectId))
+        using (StreamReader streamReader = new StreamReader(dataPath))
         {
-            hwAds_projectId = hwAds_projectId.Replace(" ", "");
-            jo["hwads_projectId"] = int.Parse(hwAds_projectId);
-        }
-        if (!string.IsNullOrEmpty(hwads_AppToken))
-        {
-            hwads_AppToken = hwads_AppToken.Replace(" ","");
-            jo["hwads_AppToken"] = hwads_AppToken;
-        }
-        if (!string.IsNullOrEmpty(hwads_ImportantToken))
-        {
-            hwads_ImportantToken = hwads_ImportantToken.Replace(" ", "");
-            jo["hwads_ImportantToken"] = hwads_ImportantToken;
-        }
-        if (!string.IsNullOrEmpty(hwads_UACToken))
-        {
-            hwads_UACToken = hwads_UACToken.Replace(" ", "");
-            jo["hwads_UACToken"] = hwads_UACToken;
-        } 
-        if (!string.IsNullOrEmpty(hwads_MonetizationToken))
-        {
-            hwads_MonetizationToken = hwads_MonetizationToken.Replace(" ","");
-            jo["hwads_MonetizationToken"] = hwads_MonetizationToken;
-        }
-            
-        //GA
-        if (!string.IsNullOrEmpty(ga_GameKey))
-        {
-            ga_GameKey = ga_GameKey.Replace(" ", "");
-            jo["ga_GameKey"] = ga_GameKey;
-        }
-        if (!string.IsNullOrEmpty(ga_gameSecret))
-        {
-            ga_gameSecret = ga_gameSecret.Replace(" ","");
-            jo["ga_gameSecret"] = ga_gameSecret;
-        }
-        if (!string.IsNullOrEmpty(ga_buildId))
-        {
-            ga_buildId = ga_buildId.Replace(" ", "");
-            jo["ga_buildId"] = ga_buildId;
-        }
-        //DataPlayer
-        if (!string.IsNullOrEmpty(dp_appID))
-        {
-            dp_appID = dp_appID.Replace(" ", "");
-            jo["dp_appID"] = dp_appID;
-        } 
-        if (!string.IsNullOrEmpty(dp_appName))
-        {
-            
-            jo["dp_appName"] = dp_appName;
-        } 
-        if (!string.IsNullOrEmpty(dp_channel))
-        {
-            
-            jo["dp_channel"] = dp_channel;
-        }
-        string _serviceVendor = dp_serviceVendor.ToString();
-        if (!string.IsNullOrEmpty(_serviceVendor))
-        {
-            jo["dp_serviceVendor"] = _serviceVendor;
-        }
-        //bugly
-        if (!string.IsNullOrEmpty(bugly_appID))
-        {
-            bugly_appID = bugly_appID.Replace(" ", "");
-            jo["bugly_appID"] = bugly_appID;
-        }
-            
-        string str = jo.ToString();
-        StreamWriter streamWriter = new StreamWriter(dataPath);
-        streamWriter.Write(str);
-        streamWriter.Close();
+            string json = streamReader.ReadToEnd();
+            streamReader.Close();
+            JObject jo = null;
+            if (String.IsNullOrEmpty(json))
+                jo = new JObject();
+            else
+            {
+                var jToken = JToken.Parse(json);
+                jo = jToken as JObject;
+            }
+            if (!string.IsNullOrEmpty(hwAds_projectId))
+            {
+                hwAds_projectId = hwAds_projectId.Replace(" ", "");
+                jo["hwads_projectId"] = int.Parse(hwAds_projectId);
+            }
+            if (!string.IsNullOrEmpty(hwads_AppToken))
+            {
+                hwads_AppToken = hwads_AppToken.Replace(" ", "");
+                jo["hwads_AppToken"] = hwads_AppToken;
+            }
+            if (!string.IsNullOrEmpty(hwads_ImportantToken))
+            {
+                hwads_ImportantToken = hwads_ImportantToken.Replace(" ", "");
+                jo["hwads_ImportantToken"] = hwads_ImportantToken;
+            }
+            if (!string.IsNullOrEmpty(hwads_UACToken))
+            {
+                hwads_UACToken = hwads_UACToken.Replace(" ", "");
+                jo["hwads_UACToken"] = hwads_UACToken;
+            }
+            if (!string.IsNullOrEmpty(hwads_MonetizationToken))
+            {
+                hwads_MonetizationToken = hwads_MonetizationToken.Replace(" ", "");
+                jo["hwads_MonetizationToken"] = hwads_MonetizationToken;
+            }
+
+            //GA
+            if (!string.IsNullOrEmpty(ga_GameKey))
+            {
+                ga_GameKey = ga_GameKey.Replace(" ", "");
+                jo["ga_GameKey"] = ga_GameKey;
+            }
+            if (!string.IsNullOrEmpty(ga_gameSecret))
+            {
+                ga_gameSecret = ga_gameSecret.Replace(" ", "");
+                jo["ga_gameSecret"] = ga_gameSecret;
+            }
+            if (!string.IsNullOrEmpty(ga_buildId))
+            {
+                ga_buildId = ga_buildId.Replace(" ", "");
+                jo["ga_buildId"] = ga_buildId;
+            }
+            //DataPlayer
+            if (!string.IsNullOrEmpty(dp_appID))
+            {
+                dp_appID = dp_appID.Replace(" ", "");
+                jo["dp_appID"] = dp_appID;
+            }
+            if (!string.IsNullOrEmpty(dp_appName))
+            {
+
+                jo["dp_appName"] = dp_appName;
+            }
+            if (!string.IsNullOrEmpty(dp_channel))
+            {
+
+                jo["dp_channel"] = dp_channel;
+            }
+            string _serviceVendor = dp_serviceVendor.ToString();
+            if (!string.IsNullOrEmpty(_serviceVendor))
+            {
+                jo["dp_serviceVendor"] = _serviceVendor;
+            }
+            //bugly
+            if (!string.IsNullOrEmpty(bugly_appID))
+            {
+                bugly_appID = bugly_appID.Replace(" ", "");
+                jo["bugly_appID"] = bugly_appID;
+            }
+
+            string str = jo.ToString();
+            StreamWriter streamWriter = new StreamWriter(dataPath);
+            streamWriter.Write(str);
+            streamWriter.Close();
+            AssetDatabase.Refresh();
+        }  
     }
     static void SavePlist()
     {
@@ -388,6 +416,7 @@ public class HwAdsToolWindow : EditorWindow
         StreamWriter streamWriter = new StreamWriter(configPath);
         streamWriter.Write(str);
         streamWriter.Close();
+        AssetDatabase.Refresh();
     }
     static void SaveXml()
     {
