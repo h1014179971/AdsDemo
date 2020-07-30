@@ -479,7 +479,7 @@ public class XCodeConfig : MonoBehaviour {
         XClass hwAdsInterface = new XClass(path);
         hwAdsInterface.Replace("call(\"555555555\")", "call(\"66666666\")");
     }
-    [MenuItem("test/test")]
+    //[MenuItem("test/test")]
     private static void FileTest()
     {
         string path = configPath1;
