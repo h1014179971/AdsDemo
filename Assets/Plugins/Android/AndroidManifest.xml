@@ -45,7 +45,7 @@
         <action android:name="com.android.vending.INSTALL_REFERRER" />
       </intent-filter>
     </receiver>
-    <provider android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider" android:authorities="com.hg.idlefarm.TTMultiProvider" android:exported="false" />
+    <provider android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider" android:authorities="com.hello.tankclash.TTMultiProvider" android:exported="false" />
     <!--////////////////////////////////// 变现sdk/////////////////////////////////////////////-->
   </application>
   <uses-feature android:glEsVersion="0x00020000" />

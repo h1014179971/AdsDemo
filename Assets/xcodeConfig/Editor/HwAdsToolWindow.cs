@@ -432,6 +432,9 @@ public class HwAdsToolWindow : EditorWindow
         node.Attributes["android:value"].Value = facebookId; 
         node = FindNode(xmlDoc, "/manifest/application/meta-data", "android:name", "com.google.android.gms.ads.APPLICATION_ID");
         node.Attributes["android:value"].Value  = android_admobID;
+        node = FindNode(xmlDoc, "/manifest/application/provider", "android:name", "com.bytedance.sdk.openadsdk.multipro.TTMultiProvider");
+        string authorities = PlayerSettings.applicationIdentifier + ".TTMultiProvider";  
+        node.Attributes["android:authorities"].Value = authorities;
         xmlDoc.Save(xmlPath);
         AssetDatabase.Refresh();
     }
