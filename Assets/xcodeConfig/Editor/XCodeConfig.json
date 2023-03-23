@@ -31,15 +31,14 @@
   },
   "properties": {
     "=": {
-      "ENABLE_BITCODE": "NO",
-      "GCC_ENABLE_OBJC_EXCEPTIONS": "YES",
-      "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
-      "CODE_SIGN_IDENTITY": "Apple Development",
-      "CODE_SIGN_IDENTITY[sdk=iphoneos*]": "Apple Development",
-      "CODE_SIGN_STYLE": "Manual",
-      "CLANG_ENABLE_MODULES": "YES",
-      "PRODUCT_BUNDLE_IDENTIFIER": "com.hw.adTest",
-      "PROVISIONING_PROFILE_SPECIFIER": "tank2_0710_dev"
+        "ENABLE_BITCODE": "NO",
+        "GCC_ENABLE_OBJC_EXCEPTIONS": "YES",
+        "CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES": "YES",
+        "CODE_SIGN_IDENTITY": "Apple Development",
+        "CODE_SIGN_IDENTITY[sdk=iphoneos*]": "Apple Development",
+        "CODE_SIGN_STYLE": "Manual",
+        "CLANG_ENABLE_MODULES": "YES",
+        "PROVISIONING_PROFILE_SPECIFIER": "tank2_0710_dev"
     },
     "+": {
       "OTHER_LDFLAGS": [
@@ -79,11 +78,11 @@
     ]
   },
   "teamId": "5LB6T49XW9",
-  "copyfiles": {
-    "iOSAdd/Files/HwAdsInterface.m": "Classes/HwAdsInterface.m",
-    "iOSAdd/Files/HwAdsInterface.h": "Classes/HwAdsInterface.h",
-    "iOSAdd/Files/CustomAppController.mm": "Classes/CustomAppController.mm"
-  },
+    "copyfiles": {
+        "iOSAdd/Files/HwAdsInterface.m": "Classes/HwAdsInterface.m",
+        "iOSAdd/Files/HwAdsInterface.h": "Classes/HwAdsInterface.h",
+        "iOSAdd/Files/CustomAppController.mm": "Classes/CustomAppController.mm"
+    },
   "folders": {
     "iOSAdd/HwAds": "HwAds"
   },
