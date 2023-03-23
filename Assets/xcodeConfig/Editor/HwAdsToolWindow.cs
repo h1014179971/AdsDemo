@@ -36,6 +36,7 @@ public class HwAdsToolWindow : EditorWindow
     private static Dp_serviceVendorEnum dp_serviceVendor;
     private static string bugly_appID;
     private static string setting_PROVISIONING;
+    private static string setting_packageName;
     private static string plist_admobID;
     private static string plist_facebookID;
     private static string plist_facebookName;
@@ -121,6 +122,7 @@ public class HwAdsToolWindow : EditorWindow
         plist_facebookID = plistJo.Value<string>("FacebookAppID"); 
         plist_facebookName = plistJo.Value<string>("FacebookDisplayName");
         JObject propertiesJo = jo.Value<JObject>("properties");
+        setting_packageName = propertiesJo["="]["PRODUCT_BUNDLE_IDENTIFIER"].ToString();
         setting_PROVISIONING = propertiesJo["="]["PROVISIONING_PROFILE_SPECIFIER"].ToString();
     }
     static void LoadXml()
@@ -254,6 +256,10 @@ public class HwAdsToolWindow : EditorWindow
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("-----------------------------------Build Settings---------------------------------------");
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("setting_packageName", GUILayout.Width(150));
+            setting_packageName = EditorGUILayout.TextField("", setting_packageName);
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("setting_PROVISIONING", GUILayout.Width(150));
@@ -408,6 +414,8 @@ public class HwAdsToolWindow : EditorWindow
             plistJo["FacebookDisplayName"] = plist_facebookName;
         }
         JObject propertiesJo = jo.Value<JObject>("properties");
+        if(!string.IsNullOrEmpty(setting_packageName))
+            propertiesJo["="]["PRODUCT_BUNDLE_IDENTIFIER"] = setting_packageName;
         if (!string.IsNullOrEmpty(setting_PROVISIONING))
         {
             propertiesJo["="]["PROVISIONING_PROFILE_SPECIFIER"] = setting_PROVISIONING;

@@ -20,6 +20,7 @@ typedef void (*CallbackDelegate)(const char *object);
 CallbackDelegate callback;
 
 
+
 static HwAdsInterface *hwAdsInterfaceInstance;
 + (id) sharedInstance{
     if(hwAdsInterfaceInstance == nil){
