@@ -67,10 +67,8 @@ public class GamePlayer {
     private String gaSecretKey= "8e6829e7493c5c8ba503f8d52a2b7b21398b9f73";
     public Activity mContext;
 
-    private  String AndroidPlatformWrapper = "AndroidPlatformWrapper";
+    private  String AndroidPlatformWrapper = "HwAdsCallBack";
     private  String rewardTag;
-    private  String rewardActionSuccess;
-    private  String rewardActionFail;
     private  boolean isReward;
     public GamePlayer() {
     }
@@ -113,8 +111,7 @@ public class GamePlayer {
         String ga_GameKey = DataJson.getGa_GameKey();
         String ga_gameSecret = DataJson.getGa_gameSecret();
         String ga_buildId = DataJson.getGa_buildId();
-        Log.i(TAG, "ga_GameKey: "+ ga_GameKey+"ga_gameSecret:"+ga_gameSecret+"ga_buildId:"+ga_buildId);
-        GameAnalytics.initializeWithGameKey(context,ga_GameKey,ga_gameSecret);
+        GameAnalytics.initializeWithGameKey(ga_GameKey,ga_gameSecret);
         GameAnalytics.configureBuild(ga_buildId);
         /*ga*/
     }
@@ -144,7 +141,7 @@ public class GamePlayer {
                     @Override
                     public void run() {
                         Log.i(TAG, "onRewardedVideoPlaybackError: ");
-                        UnityPlayer.UnitySendMessage(AndroidPlatformWrapper,rewardActionFail,rewardTag);
+                        UnityPlayer.UnitySendMessage(AndroidPlatformWrapper,"RewardCallBack","false");
                         isReward = false;
                     }});
 
@@ -163,9 +160,9 @@ public class GamePlayer {
                     public void run() {
                         Log.i(TAG, "onRewardedVideoClosed: ");
                         if(isReward)
-                            UnityPlayer.UnitySendMessage(AndroidPlatformWrapper,rewardActionSuccess,rewardTag);
+                            UnityPlayer.UnitySendMessage(AndroidPlatformWrapper,"RewardCallBack","true");
                         else
-                            UnityPlayer.UnitySendMessage(AndroidPlatformWrapper,rewardActionFail,rewardTag);
+                            UnityPlayer.UnitySendMessage(AndroidPlatformWrapper,"RewardCallBack","false");
                         isReward = false;
                     }});
 
@@ -209,11 +206,9 @@ public class GamePlayer {
     }
 
 
-    public void showHwRewardAd(String arg1,String arg2,String arg3){
+    public void showHwRewardAd(String arg1){
         rewardTag = arg1;
-        Log.i(TAG, "showHwRewardAd: "+arg1 + "arg2:"+arg2);
-        rewardActionSuccess = arg2;
-        rewardActionFail = arg3;
+        Log.i(TAG, "showHwRewardAd: "+arg1);
         HwAdsInterface.showReward(arg1);
 
     }
